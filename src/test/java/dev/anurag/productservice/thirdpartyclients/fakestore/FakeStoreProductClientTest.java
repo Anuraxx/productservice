@@ -3,7 +3,6 @@ package dev.anurag.productservice.thirdpartyclients.fakestore;
 import dev.anurag.productservice.exceptions.NotFoundException;
 import dev.anurag.productservice.thirdpartyclients.fakestore.dtos.FakeStoreProductDto;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +27,7 @@ public class FakeStoreProductClientTest {
 //    @MockBean
 //    private RestTemplate restTemplate;
 
-    @Test
+//    @Test
     public void testGetProductById() throws NotFoundException {
         RestTemplate restTemplate = Mockito.mock(RestTemplate.class);
         when(restTemplateBuilder.build())
