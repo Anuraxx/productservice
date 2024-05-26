@@ -2,28 +2,41 @@ package dev.anurag.productservice.controllers;
 
 import dev.anurag.productservice.dtos.GenericProductDto;
 import dev.anurag.productservice.exceptions.NotFoundException;
+import dev.anurag.productservice.security.JwtData;
+import dev.anurag.productservice.security.TokenValidator;
 import dev.anurag.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     private ProductService productService;
+    private TokenValidator tokenValidator;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, TokenValidator tokenValidator) {
         this.productService = productService;
+        this.tokenValidator = tokenValidator;
     }
 
     @GetMapping("{id}")
-    public GenericProductDto getProductById(@PathVariable("id") Long id) throws NotFoundException {
+    public GenericProductDto getProductById(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String authToken,
+            @PathVariable("id") Long id) throws NotFoundException {
         System.out.println("Calling methods");
         System.out.println("Calling methods again");
+
+        Optional<JwtData> jwtDataOptional = tokenValidator.validateToken(authToken);
+        if(jwtDataOptional.isPresent()) {
+            // Do whatever needs to be done according to the business logic
+        }
 
 
         GenericProductDto genericProductDto = productService.getProductById(id);
