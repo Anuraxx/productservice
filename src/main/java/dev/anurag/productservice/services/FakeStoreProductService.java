@@ -6,7 +6,9 @@ import dev.anurag.productservice.dtos.GenericProductDto;
 import dev.anurag.productservice.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +18,17 @@ import java.util.List;
 public class FakeStoreProductService implements ProductService {
     private FakeStoreProductClient fakeStoreProductClient;
 
+    private RedisTemplate<String, Object> redisTemplate;
+    private RestTemplate restTemplate;
+
 
     @Autowired
-    public FakeStoreProductService(FakeStoreProductClient fakeStoreProductClient) {
+    public FakeStoreProductService(FakeStoreProductClient fakeStoreProductClient,
+                                   RedisTemplate<String, Object> redisTemplate,
+                                   RestTemplate restTemplate) {
         this.fakeStoreProductClient = fakeStoreProductClient;
+        this.redisTemplate = redisTemplate;
+        this.restTemplate = restTemplate;
     }
 
     public GenericProductDto convertFakeStoreDtoToGenericProductDto(FakeStoreProductDto fakeStoreProductDto) {
@@ -40,10 +49,24 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public GenericProductDto getProductById(Long id) throws NotFoundException {
+        Object userData = restTemplate.getForEntity("http://userservice/users/1",
+                Object.class);
+
+
+        GenericProductDto genericProductDtoFromCache =
+                (GenericProductDto) redisTemplate.opsForValue().get(String.valueOf(id));
+
+        if(genericProductDtoFromCache != null) {
+            return genericProductDtoFromCache;
+        }
+
         System.out.println("Printing from FakeStoreProductService");
-        return convertFakeStoreDtoToGenericProductDto(
+        GenericProductDto genericProductDto = convertFakeStoreDtoToGenericProductDto(
                 fakeStoreProductClient.getProductById(id)
         );
+
+        redisTemplate.opsForValue().set(String.valueOf(id), genericProductDto);
+        return genericProductDto;
     }
 
     @Override

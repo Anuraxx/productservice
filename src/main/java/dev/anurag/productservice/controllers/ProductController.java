@@ -5,6 +5,7 @@ import dev.anurag.productservice.exceptions.NotFoundException;
 import dev.anurag.productservice.security.JwtData;
 import dev.anurag.productservice.security.TokenValidator;
 import dev.anurag.productservice.services.ProductService;
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class ProductController {
 
     @GetMapping("{id}")
     public GenericProductDto getProductById(
-            @RequestHeader(HttpHeaders.AUTHORIZATION) String authToken,
+            @Nullable @RequestHeader(HttpHeaders.AUTHORIZATION) String authToken,
             @PathVariable("id") Long id) throws NotFoundException {
         System.out.println("Calling methods");
         System.out.println("Calling methods again");
