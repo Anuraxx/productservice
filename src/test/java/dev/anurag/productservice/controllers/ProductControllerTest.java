@@ -1,9 +1,25 @@
 package dev.anurag.productservice.controllers;
 
+import dev.anurag.productservice.dtos.GenericProductDto;
+import dev.anurag.productservice.exceptions.NotFoundException;
+import dev.anurag.productservice.services.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+@SpringBootTest
 public class ProductControllerTest {
+
+    @Autowired
+    private ProductController productController;
+
+    @MockBean
+    private ProductService productServiceMock;
 
     @Test
     public void testGetProductById() {
@@ -50,4 +66,33 @@ public class ProductControllerTest {
     private void doSomething() {
         throw new NullPointerException();
     }
+
+
+    @Test
+    public void testGetProductByIdReturnsEmptyObjectWhenNoProductIsFound() throws NotFoundException {
+        when(productServiceMock.getProductById(any(Long.class)))
+                .thenReturn(null);
+
+        GenericProductDto response = productController.getProductById(1L);
+
+        Assertions.assertNotNull(response);
+    }
+
+    @Test
+    public void testGetProductByIdReturnsCorrectResponse() throws NotFoundException {
+        GenericProductDto toBeReturned = new GenericProductDto();
+        toBeReturned.setId(1L);
+        toBeReturned.setTitle("iPhone");
+
+        when(productServiceMock.getProductById(any()))
+                .thenReturn(toBeReturned);
+
+        GenericProductDto response = productController.getProductById(1L);
+
+        Assertions.assertEquals(response.getId(), 1L);
+        Assertions.assertEquals(response.getTitle(), "iPhone");
+
+        // Break for 5 minutes: 8:35 -> 8:40
+    }
+
 }

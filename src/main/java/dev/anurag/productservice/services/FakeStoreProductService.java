@@ -23,6 +23,10 @@ public class FakeStoreProductService implements ProductService {
     }
 
     public GenericProductDto convertFakeStoreDtoToGenericProductDto(FakeStoreProductDto fakeStoreProductDto) {
+        if(fakeStoreProductDto == null) {
+            return null;
+        }
+
         GenericProductDto genericProductDto = new GenericProductDto();
         genericProductDto.setId(fakeStoreProductDto.getId());
         genericProductDto.setImage(fakeStoreProductDto.getImage());
@@ -36,6 +40,7 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public GenericProductDto getProductById(Long id) throws NotFoundException {
+        System.out.println("Printing from FakeStoreProductService");
         return convertFakeStoreDtoToGenericProductDto(
                 fakeStoreProductClient.getProductById(id)
         );
