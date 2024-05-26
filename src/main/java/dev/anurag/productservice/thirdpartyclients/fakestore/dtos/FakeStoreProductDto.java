@@ -1,4 +1,4 @@
-package dev.anurag.productservice.dtos;
+package dev.anurag.productservice.thirdpartyclients.fakestore.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
