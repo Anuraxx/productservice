@@ -1,10 +1,5 @@
 package dev.anurag.productservice;
 
-import dev.anurag.productservice.inheritanceexample.joinedtable.MentorRepository;
-import dev.anurag.productservice.inheritanceexample.joinedtable.StudentRepository;
-import dev.anurag.productservice.repositories.CategoryRepository;
-import dev.anurag.productservice.repositories.PriceRepository;
-import dev.anurag.productservice.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,25 +7,25 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ProductServiceApplication implements CommandLineRunner {
 
-	private MentorRepository mentorRepository;
-	private StudentRepository studentRepository;
-
-	private ProductRepository productRepository;
-	private CategoryRepository categoryRepository;
-
-	private PriceRepository priceRepository;
-
-	public ProductServiceApplication(MentorRepository mentorRepository,
-									 StudentRepository studentRepository,
-									 ProductRepository productRepository,
-									 CategoryRepository categoryRepository,
-									 PriceRepository priceRepository) {
-		this.mentorRepository = mentorRepository;
-		this.studentRepository = studentRepository;
-		this.productRepository = productRepository;
-		this.categoryRepository = categoryRepository;
-		this.priceRepository = priceRepository;
-	}
+//	private MentorRepository mentorRepository;
+//	private StudentRepository studentRepository;
+//
+//	private ProductRepository productRepository;
+//	private CategoryRepository categoryRepository;
+//
+//	private PriceRepository priceRepository;
+//
+//	public ProductServiceApplication(MentorRepository mentorRepository,
+//									 StudentRepository studentRepository,
+//									 ProductRepository productRepository,
+//									 CategoryRepository categoryRepository,
+//									 PriceRepository priceRepository) {
+//		this.mentorRepository = mentorRepository;
+//		this.studentRepository = studentRepository;
+//		this.productRepository = productRepository;
+//		this.categoryRepository = categoryRepository;
+//		this.priceRepository = priceRepository;
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProductServiceApplication.class, args);
