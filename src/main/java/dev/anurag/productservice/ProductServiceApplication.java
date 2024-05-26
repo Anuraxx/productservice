@@ -1,11 +1,16 @@
 package dev.anurag.productservice;
 
 import dev.anurag.productservice.inheritanceexample.joinedtable.MentorRepository;
-import dev.anurag.productservice.inheritanceexample.joinedtable.Student;
 import dev.anurag.productservice.inheritanceexample.joinedtable.StudentRepository;
+import dev.anurag.productservice.models.Category;
+import dev.anurag.productservice.repositories.CategoryRepository;
+import dev.anurag.productservice.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @SpringBootApplication
 public class ProductServiceApplication implements CommandLineRunner {
@@ -13,10 +18,17 @@ public class ProductServiceApplication implements CommandLineRunner {
 	private MentorRepository mentorRepository;
 	private StudentRepository studentRepository;
 
+	private ProductRepository productRepository;
+	private CategoryRepository categoryRepository;
+
 	public ProductServiceApplication(MentorRepository mentorRepository,
-									 StudentRepository studentRepository) {
+									 StudentRepository studentRepository,
+									 ProductRepository productRepository,
+									 CategoryRepository categoryRepository) {
 		this.mentorRepository = mentorRepository;
 		this.studentRepository = studentRepository;
+		this.productRepository = productRepository;
+		this.categoryRepository = categoryRepository;
 	}
 
 	public static void main(String[] args) {
@@ -55,12 +67,46 @@ public class ProductServiceApplication implements CommandLineRunner {
 //		});
 
 
-		Student student = new Student();
-		student.setName("Nishta");
-		student.setEmail("n@gmail.com");
-		student.setBatch("batch2");
-		student.setPsp(98.0);
+//		Student student = new Student();
+//		student.setName("Nishta");
+//		student.setEmail("n@gmail.com");
+//		student.setBatch("batch2");
+//		student.setPsp(98.0);
+//
+//		studentRepository.save(student);
 
-		studentRepository.save(student);
+
+//		Category category = new Category();
+//		category.setName("electronics");
+//
+//		Category savedCategory = categoryRepository.save(category);
+//
+//		Product product = new Product();
+//		product.setTitle("iPhone");
+//		product.setPrice(100.0);
+//		product.setImage("image url");
+//		product.setDescription("Best phone ever");
+//		product.setCategory(savedCategory);
+//
+//		productRepository.save(product);
+
+		Optional<Category> categoryOptional = categoryRepository.
+				findById(UUID.fromString("02600b88-43f3-4341-8bff-ec665a17c21c"));
+
+
+		if(!categoryOptional.isEmpty()) {
+			Category category = categoryOptional.get();
+			System.out.println(category.getProduct());
+		}
+
+
+
 	}
+
+
+	/*
+	* 1:1 ->
+	* m:1 or 1:m
+	* m:m
+	* */
 }
