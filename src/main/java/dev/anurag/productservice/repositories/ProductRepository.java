@@ -1,6 +1,8 @@
 package dev.anurag.productservice.repositories;
 
 import dev.anurag.productservice.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,10 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
 //    @Query(value = "select Product from Product where Product.title = :title", nativeQuery = false)
 //    Product findByTitle2(String title);
+
+    Page<Product> findAllByTitle(String title, Pageable pageable);
+
+    Page<Product> findAllByTitleContaining(String title, Pageable pageable);
 }
 
 // added a comment
